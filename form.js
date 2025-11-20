@@ -6,16 +6,13 @@ if (window.top !== window) {
   document.documentElement.style.height = '100%';
   document.body.style.height = '100%';
 }// form.js - Full Dynamic Taxi Booking Form for SarahZaaraz-ECOM/booking-form
-(function() {
-  'use strict';
-  
-  const encodedConfig = document.currentScript.getAttribute('data-config');
+const encodedConfig = document.currentScript.getAttribute('data-config');
   const config = encodedConfig ? JSON.parse(atob(encodedConfig)) : {
     domain: "londontaxis247.co.uk",
-    officeDetails: "LNT,Cheap Airport Transfers London,https://cheapairporttransferslondon.com/,02037405467",
-    colorCode: "A64D79",
-    title: "London Airport Minicab",
-    brandColor: "#111d13"
+    officeDetails: "LNT,My Taxi Company,https://mytaxi.com/,02081234567",
+    colorCode: "0066FF",
+    title: "Book Your Ride Now",
+    brandColor: "#0066FF"
   };
   
   // Full HTML with your exact original code, but dynamic
