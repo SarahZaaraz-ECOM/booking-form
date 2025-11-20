@@ -1860,11 +1860,14 @@ if (window.top !== window) {
 </body>
 </html>`;
 
-  // Inject the HTML into a shadow DOM for isolation (works in any embed)
+// Inject into iframe for isolation
   const container = document.getElementById('taxi-booking-form') || document.currentScript.parentNode;
-  const shadowHost = document.createElement('div');
-  shadowHost.innerHTML = '<style>iframe { width: 100%; height: 800px; border: none; }</style><iframe srcdoc="' + fullHtml.replace(/"/g, '&quot;').replace(/'/g, '&#39;') + '"></iframe>';
-  container.appendChild(shadowHost.firstChild);
-  
+  const iframe = document.createElement('iframe');
+  iframe.style.width = '100%';
+  iframe.style.height = '800px';
+  iframe.style.border = 'none';
+  iframe.srcdoc = fullHtml;
+  container.appendChild(iframe);
+
   console.log('Full form injected with config:', config);
 })();
