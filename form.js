@@ -1,4 +1,11 @@
-// form.js - Full Dynamic Taxi Booking Form for SarahZaaraz-ECOM/booking-form
+
+
+
+// Add this as the FIRST line inside the <script> in form.js
+if (window.top !== window) {
+  document.documentElement.style.height = '100%';
+  document.body.style.height = '100%';
+}// form.js - Full Dynamic Taxi Booking Form for SarahZaaraz-ECOM/booking-form
 (function() {
   'use strict';
   
