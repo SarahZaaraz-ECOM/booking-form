@@ -1860,14 +1860,19 @@ if (window.top !== window) {
 </body>
 </html>`;
 
-// Inject into iframe for isolation
-  const container = document.getElementById('taxi-booking-form') || document.currentScript.parentNode;
+// THIS IS THE ONLY PART THAT CHANGED
   const iframe = document.createElement('iframe');
-  iframe.style.width = '100%';
-  iframe.style.height = '800px';
-  iframe.style.border = 'none';
+  iframe.style.cssText = 'width:100%; height:1150px; border:none; display:block;';
   iframe.srcdoc = fullHtml;
-  container.appendChild(iframe);
 
-  console.log('Full form injected with config:', config);
+  // Find the container in the PARENT page, not inside the iframe
+  const parentContainer = window.parent.document.getElementById('taxi-booking-form');
+  if (parentContainer) {
+    parentContainer.innerHTML = '';        // clear old attempts
+    parentContainer.appendChild(iframe);
+  } else {
+    document.body.appendChild(iframe);     // fallback
+  }
+
+  console.log('Taxi form successfully injected!', config);
 })();
