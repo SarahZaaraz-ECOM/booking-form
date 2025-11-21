@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>London Airport Minicab Booking Form</title>
+  <style>
+    /* Optional: minimal fallback styling */
+    .formError { text-align: center; padding: 20px; background: #fff; border: 2px solid #f00; border-radius: 12px; }
+    .formError img { width: 60px; }
+    #dynamic-widget { width: 100%; display: flex; justify-content: center; padding: 20px 0; }
+  </style>
+</head>
+<body>
+
+  <div id="dynamic-widget"></div>
+
+  <script>
+    // === CONFIGURATION (change these per website) ===
+    var color_code = "ffc000";
+    var office_details = "LNT,London Taxis Near Me, https://www.londontaxisnearme.com/, 02038131432";
+    var destnationDomain = "booking.londontaxis247.co.uk";
+    // ================================================
+
+    (function () {
+      const container = document.getElementById("dynamic-widget");
+
+      function loadForm() {
+        // 1. Load HTML
+        fetch("form.html")
+          .then(r => {
+            if (!r.ok) throw new Error(`Failed to load form.html (${r.status})`);
+            return r.text();
+          })
+          .then(html => {
+            // Inject HTML
+            container.innerHTML = html;
+
+            // 2. Load CSS
+            const cssLink = document.createElement("link");
+            cssLink.rel = "stylesheet";
+            cssLink.href = "form.css?" + Date.now(); // cache busting
+            document.head.appendChild(cssLink);
+
+            // 3. Load JS and execute initialization
+            const script = document.createElement("script");
+            script.src = "form.js?" + Date.now();
+            script.onload = function () {
+              // Critical: Re-initialize everything after dynamic load
+              if (typeof setupModal === "function") {
+                setupModal("airportListModal1", "pickup");
+                setupModal("airportListModal2", "dropof");
+              }
+              if (typeof loadItems === "function") {
+                loadItems(); // This was missing! Now items will load
+              }
+              if (typeof setDefaultDateTime === "function") {
+                setDefaultDateTime();
+              }
+              // Re-apply autocomplete (important!)
+              if (typeof setupAutocomplete === "function") {
+                setupAutocomplete("pickup", "pickup-suggestions");
+                setupAutocomplete("dropof", "dropof-suggestions");
+              }
+              // Re-apply items input click
+              const itemsInput = document.getElementById("items-input");
+              if (itemsInput) {
+                itemsInput.addEventListener("click", toggleItemsSideMenu);
+              }
+            };
+            script.onerror = () => console.error("Failed to load form.js");
+            document.body.appendChild(script);
+          })
+          .catch(err => {
+            console.error("Form load failed:", err);
+            container.innerHTML = `
+              <div class="formError">
+                <img src="images/caution.png" alt="Error">
+                <h2>Failed to Load Form</h2>
+                <p>${err.message}</p>
+                <button onclick="location.reload()">Try Again</button>
+              </div>`;
+          });
+      }
+
+      loadForm();
+    })();
+  </script>
+</body>
+</html>
