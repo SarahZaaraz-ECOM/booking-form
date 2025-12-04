@@ -463,6 +463,7 @@
         display: none;
         flex-direction: column;
         padding: 16px;
+            height:95%
       }
 
       .items-side-menu.show {
@@ -615,6 +616,7 @@
 
         .items-side-menu {
           width: 65%;
+              height:95%;
           border-radius: 0;
         }
       }
